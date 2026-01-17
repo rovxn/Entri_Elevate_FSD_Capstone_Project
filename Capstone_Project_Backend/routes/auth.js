@@ -42,4 +42,10 @@ router.get('/profile', protect, (req, res) => {
     res.json(req.user);
 });
 
+// @desc    Logout user
+// @route   POST /api/auth/logout
+router.post('/logout', (req, res) => {
+    res.json({ message: 'Logged out successfully' });
+});
+
 module.exports = router;
