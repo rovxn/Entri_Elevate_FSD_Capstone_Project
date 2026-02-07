@@ -14,6 +14,17 @@ router.post('/', protect, authorize('admin'), async (req, res) => {
     }
 });
 
+// @desc    Get all players
+// @route   GET /api/players
+router.get('/', async (req, res) => {
+    try {
+        const players = await Player.find();
+        res.json(players);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // @desc    Get player stats
 // @route   GET /api/players/:id
 router.get('/:id', async (req, res) => {

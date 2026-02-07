@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import MatchDetails from './pages/MatchDetails';
+import Players from './pages/Players';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -19,6 +21,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/matches/:id"
+          element={
+            <ProtectedRoute>
+              <MatchDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/players"
+          element={
+            <ProtectedRoute>
+              <Players />
             </ProtectedRoute>
           }
         />

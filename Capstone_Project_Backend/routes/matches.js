@@ -35,4 +35,4 @@ router.put('/:id/score', protect, authorize('admin', 'scorer'), async (req, res)
     }
 });
 
-module.exports = router;
+module.exports = router;    

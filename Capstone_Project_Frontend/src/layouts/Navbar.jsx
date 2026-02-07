@@ -29,6 +29,10 @@ const Navbar = () => {
                                 <LayoutDashboard size={16} />
                                 Dashboard
                             </Link>
+                            <Link to="/players" className="text-sm font-semibold text-text-muted hover:text-text-main transition-colors flex items-center gap-2">
+                                <User size={16} />
+                                Players
+                            </Link>
                             {role === 'admin' && (
                                 <Link to="/admin" className="text-sm font-semibold text-text-muted hover:text-text-main transition-colors">Admin</Link>
                             )}
