@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../layouts/Navbar';
 import { getCurrentUser } from '../services/authService';
 import { getMatches, createMatch } from '../services/matchService';
-import { Trophy, Users, Activity, Plus, Settings, ChevronRight, X } from 'lucide-react';
+import { Trophy, Users, Activity, Plus, Settings, ChevronRight, X, Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -10,6 +10,8 @@ const Dashboard = () => {
     const [matches, setMatches] = useState([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [newMatch, setNewMatch] = useState({ matchName: '', teamA: '', teamB: '', venue: '' });
+    const [statusFilter, setStatusFilter] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,8 +52,17 @@ const Dashboard = () => {
     const stats = [
         { label: 'Matches', value: matches.length.toString(), icon: Trophy },
         { label: 'Teams', value: '12', icon: Users }, // Placeholder for now
-        { label: 'Active', value: matches.filter(m => m.status === 'live').length.toString(), icon: Activity },
+        { label: 'Live Now', value: matches.filter(m => m.status === 'live').length.toString(), icon: Activity },
     ];
+
+    const filteredMatches = matches.filter(match => {
+        const matchesStatus = statusFilter === 'all' || match.status === statusFilter;
+        const matchesSearch = match.matchName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            match.teams[0]?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            match.teams[1]?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            match.venue?.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesStatus && matchesSearch;
+    });
 
     if (!user) return (
         <div className="h-screen flex items-center justify-center bg-bg-main animate-pulse">
@@ -170,13 +181,50 @@ const Dashboard = () => {
                             {/* <span className="badge badge-live">Live Now</span> */}
                         </div>
 
+                        {/* Search and Filter Toolbar */}
+                        <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-bg-card/50 p-4 rounded-xl border border-border/50 backdrop-blur-sm">
+                            <div className="relative w-full md:w-64">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
+                                <input
+                                    type="text"
+                                    placeholder="Search teams or venues..."
+                                    className="w-full pl-10 pr-4 py-2 bg-bg-main border border-border rounded-lg text-sm focus:outline-none focus:border-primary transition-colors focus:ring-2 focus:ring-primary/10"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </div>
+                            <div className="flex bg-bg-main border border-border p-1 rounded-lg w-full md:w-auto overflow-x-auto">
+                                {['all', 'live', 'upcoming', 'completed'].map(filter => (
+                                    <button
+                                        key={filter}
+                                        onClick={() => setStatusFilter(filter)}
+                                        className={`flex-1 md:flex-none px-4 py-1.5 rounded-md text-[10px] md:text-xs font-bold uppercase transition-all duration-200 ${statusFilter === filter
+                                            ? 'bg-primary text-text-inverse shadow-sm scale-105'
+                                            : 'text-text-muted hover:text-text-main hover:bg-bg-secondary'
+                                            }`}
+                                    >
+                                        {filter}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
                         <div className="space-y-4">
-                            {matches.length === 0 ? (
-                                <div className="text-text-muted text-center py-8 bg-bg-card rounded-lg border border-border border-dashed">
-                                    No matches found.
+                            {filteredMatches.length === 0 ? (
+                                <div className="text-text-muted text-center py-12 bg-bg-card rounded-xl border border-border border-dashed flex flex-col items-center gap-3">
+                                    <div className="w-12 h-12 rounded-full bg-bg-secondary flex items-center justify-center border border-border">
+                                        <Search size={20} className="text-text-muted opacity-50" />
+                                    </div>
+                                    <p>No matches found matching your filters.</p>
+                                    <button
+                                        onClick={() => { setStatusFilter('all'); setSearchQuery('') }}
+                                        className="text-primary text-sm font-bold hover:underline"
+                                    >
+                                        Clear Filters
+                                    </button>
                                 </div>
                             ) : (
-                                matches.map((match) => (
+                                filteredMatches.map((match) => (
                                     <div
                                         key={match._id}
                                         onClick={() => navigate(`/matches/${match._id}`)}
@@ -239,8 +287,8 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 };
 

@@ -132,12 +132,12 @@ Initiated the frontend using React.js following approved wireframes.
 ## Week 4 Tasks: Complete Project & Deployment
 
 ### 1. Complete Frontend Development
-- [ ] Finish building out all frontend components and pages.
-- [ ] Ensure that the UI/UX is consistent and fully functional.
+- [x] Finish building out all frontend components and pages.
+- [x] Ensure that the UI/UX is consistent and fully functional.
 
 ### 2. Integrate Frontend with Backend
-- [ ] Connect the frontend with the backend to ensure full communication between the two.
-- [ ] Test all functionalities thoroughly to ensure they work as expected.
+- [x] Connect the frontend with the backend to ensure full communication between the two.
+- [x] Test all functionalities thoroughly to ensure they work as expected.
 
 ### 3. Deploy the Project
 - [x] Deploy your project on Vercel or any other cloud platform of your choice (with whatever you have completed so far).
