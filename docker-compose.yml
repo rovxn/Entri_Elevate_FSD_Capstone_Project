@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./Capstone_Project_Backend
+    ports:
+      - "21103:5001"
+    environment:
+      - PORT=5001
+      - MONGO_URI=mongodb+srv://rovxn:Kannanme123*@basecluster.3svr4l7.mongodb.net/
+      - JWT_SECRET=rovnscapstone
+    networks:
+      - app-network
+
+  frontend:
+    build: ./Capstone_Project_Frontend
+    ports:
+      - "225:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
