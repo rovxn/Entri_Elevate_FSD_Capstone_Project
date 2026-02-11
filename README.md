@@ -1,6 +1,36 @@
-# Entri Elevate FSD Capstone Project
+# Entri Elevate FSD Capstone Project - CricTracker
 
-This repository contains the backend implementation for the Entri Elevate Full Stack Development Capstone Project. The project is a sports management system (CricTracker) that handles player statistics, match records, and user authentication.
+CricTracker is a comprehensive sports management system designed for the Entri Elevate Full Stack Development Capstone Project. It provides a robust platform for managing cricket tournaments, including real-time score updates, player statistics, team management, and role-based user access.
+
+## Key Features
+
+- **Live Score Updates**: Real-time tracking of match scores and status (Live, Paused, Ended).
+- **Role-Based Access Control (RBAC)**:
+    - **Admin**: Full control over teams, players, and matches.
+    - **Scorer**: Authorized to update match scores in real-time.
+    - **Viewer**: Read-only access to match feeds and statistics.
+- **Team & Player Management**: Comprehensive admin panel to create, edit, and delete teams and players.
+- **Interactive Dashboard**: A user-friendly dashboard displaying live matches, recent results, and key statistics.
+- **Responsive Design**: fully optimized for desktop, tablet, and mobile devices with a modern, clean, and neutral aesthetic.
+- **Search & Filtering**: Efficient search functionality for players and matches.
+
+## Technologies Used
+
+### Frontend
+- **React.js**: Component-based UI library.
+- **Vite**: Next-generation frontend tooling.
+- **Tailwind CSS**: Utility-first CSS framework for custom, responsive design.
+- **Lucide React**: Beautiful & consistent icons.
+- **Axios**: Promise-based HTTP client for API requests.
+- **React Router**: Declarative routing for React applications.
+
+### Backend
+- **Node.js**: JavaScript runtime environment.
+- **Express.js**: Fast, unopinionated web framework.
+- **MongoDB**: NoSQL database for flexible data storage.
+- **Mongoose**: Object Data Modeling (ODM) library for MongoDB.
+- **JWT (JSON Web Tokens)**: Secure authentication mechanism.
+- **Bcrypt.js**: Libray for hashing passwords.
 
 ## Project Structure
 
@@ -9,7 +39,7 @@ This repository contains the backend implementation for the Entri Elevate Full S
 ├── Capstone_Project_Backend/
 │   ├── config/             # Database configuration
 │   ├── middleware/         # Custom authentication middleware
-│   ├── models/             # Mongoose schemas (User, Player, Match)
+│   ├── models/             # Mongoose schemas (User, Player, Match, Team)
 │   ├── routes/             # API route handlers
 │   ├── .env                # Environment variables
 │   ├── index.js            # Entry point of the application
@@ -17,150 +47,116 @@ This repository contains the backend implementation for the Entri Elevate Full S
 └── Capstone_Project_Frontend/
     ├── public/             # Static assets
     ├── src/
-    │   ├── assets/         # static assets
-    │   ├── components/     # Reusable UI components
-    │   ├── layouts/        # Layout components
-    │   ├── pages/          # Application pages
-    │   ├── services/       # API integration services
-    │   ├── App.jsx         # Main application component
+    │   ├── assets/         # Static assets (images, fonts)
+    │   ├── components/     # Reusable UI components (Modal, Card, etc.)
+    │   ├── layouts/        # Layout components (Navbar)
+    │   ├── pages/          # Application pages (Dashboard, Admin, Players, Login)
+    │   ├── services/       # API integration services (auth, player, team)
+    │   ├── utils/          # Utility functions (image helpers, formatters)
+    │   ├── App.jsx         # Main application component with routes
     │   └── main.jsx        # Entry point
     ├── index.html          # HTML entry point
+    ├── index.css           # Global styles and Tailwind directives
     ├── vite.config.js      # Vite configuration
     └── package.json        # Dependencies and scripts
 ```
-
-## Technologies Used
-
-- **Node.js**: JavaScript runtime environment.
-- **Express.js**: Fast, unopinionated, minimalist web framework for Node.js.
-- **MongoDB**: NoSQL database for flexible data storage.
-- **Mongoose**: Elegant mongodb object modeling for node.js.
-- **JWT (JSON Web Tokens)**: Secure way to transmit information between parties.
-- **Bcrypt.js**: Library to help hash passwords.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js installed on your local machine.
-- MongoDB database (local or Atlas cluster).
+- Node.js (v18+ recommended)
+- MongoDB (Local or Atlas)
 
 ### Installation
 
-#### Backend Setup
+#### 1. Backend Setup
 
-1. Navigate to the backend directory:
-   ```bash
-   cd Capstone_Project_Backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Configure Environment Variables:
-   Create a `.env` file in the `Capstone_Project_Backend` directory and add your configuration (see `.env` template in the project).
-   ```env
-   MONGO_URI=your_mongodb_connection_string
-   PORT=5001
-   JWT_SECRET=your_jwt_secret
-   ```
-4. Start the server:
-   - For production: `npm start`
-   - For development (with nodemon): `npm run dev`
+Navigate to the backend directory and install dependencies:
 
-#### Frontend Setup
+```bash
+cd Capstone_Project_Backend
+npm install
+```
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd Capstone_Project_Frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+Create a `.env` file in `Capstone_Project_Backend` with the following:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+PORT=5001
+JWT_SECRET=your_jwt_secret
+```
+
+Start the backend server:
+
+```bash
+npm run dev
+```
+
+#### 2. Frontend Setup
+
+Navigate to the frontend directory and install dependencies:
+
+```bash
+cd Capstone_Project_Frontend
+npm install
+```
+
+Start the frontend development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`.
 
 ## API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user and get token
+- `POST /api/auth/login` - Login and receive JWT
+
+### Teams
+- `GET /api/teams` - Get all teams
+- `POST /api/teams` - Create a new team (Admin only)
+- `PUT /api/teams/:id` - Update team details (Admin only)
+- `DELETE /api/teams/:id` - Delete a team (Admin only)
 
 ### Players
-- `POST /api/players` - Add a new player (Admin only)
-- `GET /api/players/:id` - Get player details and statistics
+- `GET /api/players` - Get all players
+- `POST /api/players` - Create a new player (Admin only)
+- `PUT /api/players/:id` - Update player details (Admin only)
+- `DELETE /api/players/:id` - Delete a player (Admin only)
 
 ### Matches
-- `POST /api/matches` - Add a new match record (Admin only)
-- `GET /api/matches` - Get all match records
+- `GET /api/matches` - Get all matches
+- `POST /api/matches` - Create a new match (Admin only)
 - `PUT /api/matches/:id/score` - Update live score (Admin or Scorer only)
 
-## Week 2 Testing
+## Capstone Progress & Roadmap
 
-The current implementation satisfies the **Week 2** assessment criteria for the FSD Capstone Project:
-- [x] Express.js server initialization and configuration.
-- [x] MongoDB database connection using Mongoose.
-- [x] Implementation of User, Player, and Match models.
-- [x] JWT-based authentication system.
-- [x] Role-based internal API endpoints (Admin, Scorer, and User access).
-- [x] Basic error handling and 404 route management.
+### Week 1-2: Foundation
+- [x] Backend initialization with Express & MongoDB.
+- [x] Database schema design (User, Player, Match).
+- [x] JWT Authentication & Role-based routes.
 
-## Week 3 Tasks & Accomplishments
+### Week 3: Frontend Integration
+- [x] React project setup with Vite.
+- [x] Authentication pages (Login/Signup).
+- [x] Backend API integration.
 
-### 1. Finalize the Backend
-All backend components developed in Week 2 were finalized to ensure complete functionality and stability.
-- **Authentication & Authorization**: Finalized JWT-based system.
-- **User Roles**: Implemented handling for Admin, Scorer, and Viewer roles.
-- **Match Status**: Added handling for Live, Paused, and Ended states.
-- **Code Quality**: Refactored for better readability and implemented robust error handling.
+### Week 4: Core Features
+- [x] Dashboard implementation.
+- [x] Live score updates.
+- [x] Deployment preparation.
 
-### 2. API Testing
-Thoroughly validated all backend API endpoints using Postman.
-- **Coverage**: Tested Auth, Team, Player, and Match APIs.
-- **Security**: Verified authorization-protected routes and role-based access control.
-- **Edge Cases**: Tested error cases including invalid tokens and unauthorized access.
-
-### 3. Frontend Development
-Initiated the frontend using React.js following approved wireframes.
-- **Setup**: Initialized project and established folder structure for pages, components, and services.
-- **Components**: Developed Login/Signup pages and basic layout components (Navbar).
-- **Authentication**: Implemented role-based routing and Axios configuration for API communication.
-
-## Week 4 Tasks: Complete Project & Deployment
-
-### 1. Complete Frontend Development
-- [x] Finish building out all frontend components and pages.
-- [x] Ensure that the UI/UX is consistent and fully functional.
-
-### 2. Integrate Frontend with Backend
-- [x] Connect the frontend with the backend to ensure full communication between the two.
-- [x] Test all functionalities thoroughly to ensure they work as expected.
-
-### 3. Deploy the Project
-- [x] Deploy your project on Vercel or any other cloud platform of your choice (with whatever you have completed so far).
-- [x] Ensure that all features work smoothly in the deployed environment.
-
-> **Note:** Share the backend and frontend GitHub repo links on Notion, along with the live link for your hosted application.
-
-## Week 5 Tasks: Final Polish & Documentation
-
-### 1. Advanced Features Implementation
-- [x] **Players Management**: Implemented full Players list with filtering and search.
-- [x] **Admin Controls**: Added functionality for Admins to create new players and manage teams.
-- [x] **Live Scoring**: Enhanced match details with real-time score updates.
-
-### 2. Final Review & Testing
-- [ ] Conduct end-to-end testing of the entire user journey (Signup -> Dashboard -> Create Match -> Update Score).
-- [ ] Verify role-based access control (Admin vs User vs Scorer).
-- [ ] Ensure responsive design works on mobile and desktop.
-
-### 3. Submission Preparation
-- [ ] Finalize `README.md` with complete setup instructions.
-- [ ] Record a video walkthrough (optional but recommended).
-- [ ] Submit GitHub Repository and Live URL.
+### Week 5: Polish & Advanced Features (Current)
+- [x] **Player Management**: Full CRUD capabilities for players.
+- [x] **Team Management**: Admin panel to manage teams.
+- [x] **Admin Dashboard**: Centralized control for system data.
+- [x] **UI/UX Overhaul**: Adopted a clean, neutral, and modern design system.
+- [x] **Responsive Optimization**: Ensured seamless experience across devices.
+- [x] **Final Testing**: End-to-end verification of user flows.
 
 ## License
 
