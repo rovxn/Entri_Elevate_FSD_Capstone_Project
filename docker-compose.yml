@@ -5,10 +5,8 @@ services:
     build: ./Capstone_Project_Backend
     ports:
       - "21103:5001"
-    environment:
-      - PORT=5001
-      - MONGO_URI=mongodb+srv://rovxn:Kannanme123*@basecluster.3svr4l7.mongodb.net/
-      - JWT_SECRET=rovnscapstone
+    env_file:
+      - ./Capstone_Project_Backend/.env
     networks:
       - app-network
 
