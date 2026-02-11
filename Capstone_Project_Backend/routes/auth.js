@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { protect } = require('../middleware/authMiddleware');
+const { protect, authorize } = require('../middleware/authMiddleware');
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -40,6 +40,39 @@ router.post('/login', async (req, res) => {
 // @route   GET /api/auth/profile
 router.get('/profile', protect, (req, res) => {
     res.json(req.user);
+});
+
+// @desc    Get all users (Admin only)
+// @route   GET /api/auth/users
+router.get('/users', protect, authorize('admin'), async (req, res) => {
+    try {
+        const users = await User.find({}).select('-password');
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// @desc    Update user role (Admin only)
+// @route   PUT /api/auth/users/:id
+router.put('/users/:id', protect, authorize('admin'), async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            user.role = req.body.role || user.role;
+            const updatedUser = await user.save();
+            res.json({
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                role: updatedUser.role
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 // @desc    Logout user

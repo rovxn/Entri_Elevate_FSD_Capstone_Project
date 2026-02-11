@@ -6,8 +6,27 @@ const { protect, authorize } = require('../middleware/authMiddleware');
 // @desc    Get all matches (Viewer access)
 // @route   GET /api/matches
 router.get('/', async (req, res) => {
-    const matches = await Match.find();
-    res.json(matches);
+    try {
+        const matches = await Match.find();
+        res.json(matches);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// @desc    Get single match by ID
+// @route   GET /api/matches/:id
+router.get('/:id', async (req, res) => {
+    try {
+        const match = await Match.findById(req.params.id);
+        if (match) {
+            res.json(match);
+        } else {
+            res.status(404).json({ message: 'Match not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 // @desc    Create match (Admin only)

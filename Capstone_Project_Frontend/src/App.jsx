@@ -5,6 +5,8 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import MatchDetails from './pages/MatchDetails';
 import Players from './pages/Players';
+import Admin from './pages/Admin';
+import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -40,6 +42,22 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute roles={['admin']}>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
@@ -47,7 +65,7 @@ function App() {
         {/* 404 Route */}
         <Route path="*" element={<div className="h-screen flex items-center justify-center bg-bg-main text-text-main text-2xl font-bold">404 - Not Found</div>} />
       </Routes>
-    </Router>
+    </Router >
   );
 }
 

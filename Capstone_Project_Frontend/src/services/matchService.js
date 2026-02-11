@@ -14,3 +14,8 @@ export const updateMatchScore = async (id, scoreData) => {
     const response = await API.put(`/matches/${id}/score`, scoreData);
     return response.data;
 };
+
+export const getMatchById = async (id) => {
+    const response = await API.get(`/matches/${id}`);
+    return response.data;
+};
