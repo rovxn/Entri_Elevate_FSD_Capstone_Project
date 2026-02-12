@@ -134,7 +134,6 @@ const Players = () => {
                                     value={playerForm.name}
                                     placeholder="e.g. Virat Kohli"
                                     onChange={(e) => setPlayerForm({ ...playerForm, name: e.target.value })}
-                                    autoFocus
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-5">
@@ -168,7 +167,6 @@ const Players = () => {
                                 </div>
                             </div>
 
-                            {/* Stats Section */}
                             <div className="pt-6 border-t border-border/50">
                                 <div className="flex items-center gap-2 mb-4">
                                     <span className="w-1 h-4 bg-primary rounded-full"></span>
@@ -179,7 +177,7 @@ const Players = () => {
                                         <label className="block text-[10px] font-bold uppercase tracking-wider text-text-muted mb-1">Matches</label>
                                         <input
                                             type="number"
-                                            className="w-full bg-white focus:ring-2 ring-primary/20 transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
+                                            className="w-full bg-white transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
                                             value={playerForm.stats.matchesPlayed}
                                             onChange={(e) => setPlayerForm({ ...playerForm, stats: { ...playerForm.stats, matchesPlayed: parseInt(e.target.value) || 0 } })}
                                         />
@@ -188,28 +186,27 @@ const Players = () => {
                                         <label className="block text-[10px] font-bold uppercase tracking-wider text-text-muted mb-1">Runs</label>
                                         <input
                                             type="number"
-                                            className="w-full bg-white focus:ring-2 ring-primary/20 transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
+                                            className="w-full bg-white transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
                                             value={playerForm.stats.runs}
                                             onChange={(e) => setPlayerForm({ ...playerForm, stats: { ...playerForm.stats, runs: parseInt(e.target.value) || 0 } })}
+                                        />
+                                    </div>
+                                    <div className="bg-bg-main/50 p-3 rounded-xl border border-border/50">
+                                        <label className="block text-[10px] font-bold uppercase tracking-wider text-text-muted mb-1">Balls Faced</label>
+                                        <input
+                                            type="number"
+                                            className="w-full bg-white transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
+                                            value={playerForm.stats.ballsFaced || 0}
+                                            onChange={(e) => setPlayerForm({ ...playerForm, stats: { ...playerForm.stats, ballsFaced: parseInt(e.target.value) || 0 } })}
                                         />
                                     </div>
                                     <div className="bg-bg-main/50 p-3 rounded-xl border border-border/50">
                                         <label className="block text-[10px] font-bold uppercase tracking-wider text-text-muted mb-1">Wickets</label>
                                         <input
                                             type="number"
-                                            className="w-full bg-white focus:ring-2 ring-primary/20 transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
+                                            className="w-full bg-white transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
                                             value={playerForm.stats.wickets}
                                             onChange={(e) => setPlayerForm({ ...playerForm, stats: { ...playerForm.stats, wickets: parseInt(e.target.value) || 0 } })}
-                                        />
-                                    </div>
-                                    <div className="bg-bg-main/50 p-3 rounded-xl border border-border/50">
-                                        <label className="block text-[10px] font-bold uppercase tracking-wider text-text-muted mb-1">Average</label>
-                                        <input
-                                            type="number"
-                                            step="0.01"
-                                            className="w-full bg-white focus:ring-2 ring-primary/20 transition-all p-2 font-mono font-bold text-lg rounded-lg border border-border"
-                                            value={playerForm.stats.average}
-                                            onChange={(e) => setPlayerForm({ ...playerForm, stats: { ...playerForm.stats, average: parseFloat(e.target.value) || 0 } })}
                                         />
                                     </div>
                                 </div>

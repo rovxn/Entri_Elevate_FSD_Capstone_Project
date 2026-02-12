@@ -4,7 +4,7 @@ const matchSchema = new mongoose.Schema({
     matchName: { type: String, required: true },
     teams: [{ type: String }], // e.g., ["Team A", "Team B"]
     venue: String,
-    status: { type: String, enum: ['upcoming', 'live', 'completed'], default: 'upcoming' },
+    status: { type: String, enum: ['upcoming', 'live', 'completed', 'paused'], default: 'upcoming' },
     scores: {
         team1: {
             runs: { type: Number, default: 0 },
@@ -20,6 +20,11 @@ const matchSchema = new mongoose.Schema({
         }
     },
     battingTeam: { type: String }, // Name of the team currently batting
+    result: { type: String, default: '' }, // e.g. "Team A won by 20 runs"
+    playingXI: {
+        team1: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
+        team2: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }]
+    },
     scorer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 

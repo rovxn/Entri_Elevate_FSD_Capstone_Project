@@ -1,7 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../layouts/Navbar';
 import { getTopScorers, getTopWicketTakers, getPlatformOverview } from '../services/analyticsService';
-import { Trophy, Activity, Users, BarChart2, TrendingUp } from 'lucide-react';
+import { Trophy, Activity, Users, BarChart2, TrendingUp, PieChart as PieIcon } from 'lucide-react';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement,
+} from 'chart.js';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import { motion } from 'framer-motion';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement
+);
 
 const Analytics = () => {
     const [stats, setStats] = useState(null);
@@ -35,13 +57,41 @@ const Analytics = () => {
         </div>
     );
 
+    const barData = {
+        labels: scorers.slice(0, 5).map(s => s.name),
+        datasets: [
+            {
+                label: 'Runs Scored',
+                data: scorers.slice(0, 5).map(s => s.stats.runs),
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                borderRadius: 8,
+            },
+        ],
+    };
+
+    const doughnutData = {
+        labels: ['Batsmen', 'Bowlers', 'All-Rounders', 'WK'],
+        datasets: [
+            {
+                data: [40, 30, 20, 10], // Mock data as backend doesn't provide role split yet
+                backgroundColor: [
+                    '#3b82f6',
+                    '#10b981',
+                    '#f59e0b',
+                    '#6366f1',
+                ],
+                hoverOffset: 4,
+            },
+        ],
+    };
+
     return (
         <div className="min-h-screen bg-bg-main pb-12">
             <Navbar />
             <main className="container pt-8 md:pt-12">
                 <header className="mb-8">
-                    <h1 className="text-3xl font-bold tracking-tight text-text-main mb-2">Analytics</h1>
-                    <p className="text-text-muted text-base">Key insights and performance metrics</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-text-main mb-2">Platform Analytics</h1>
+                    <p className="text-text-muted text-base">Key insights and performance metrics across the system.</p>
                 </header>
 
                 {/* Overview Cards */}
@@ -52,12 +102,42 @@ const Analytics = () => {
                     <StatCard label="Total Players" value={stats?.totalPlayers} icon={BarChart2} />
                 </div>
 
+                {/* Visual Charts */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="lg:col-span-2 bg-white p-6 rounded-2xl border border-border shadow-sm"
+                    >
+                        <h3 className="text-lg font-bold text-text-main mb-6 flex items-center gap-2">
+                            <TrendingUp size={20} className="text-primary" /> Scoring Leaders (Top 5)
+                        </h3>
+                        <div className="h-[300px]">
+                            <Bar data={barData} options={{ maintainAspectRatio: false }} />
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="bg-white p-6 rounded-2xl border border-border shadow-sm"
+                    >
+                        <h3 className="text-lg font-bold text-text-main mb-6 flex items-center gap-2">
+                            <PieIcon size={20} className="text-secondary" /> Player Roles
+                        </h3>
+                        <div className="h-[300px] flex items-center justify-center">
+                            <Doughnut data={doughnutData} options={{ maintainAspectRatio: false }} />
+                        </div>
+                    </motion.div>
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Top Run Scorers */}
+                    {/* Top Run Scorers Table */}
                     <div className="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
                         <div className="p-6 border-b border-border bg-bg-secondary/30 flex justify-between items-center">
                             <h2 className="text-lg font-bold text-text-main flex items-center gap-2">
-                                <TrendingUp size={20} className="text-primary" /> Top Run Scorers
+                                <TrendingUp size={20} className="text-primary" /> Detailed Rankings
                             </h2>
                         </div>
                         <div className="p-0">
@@ -89,7 +169,7 @@ const Analytics = () => {
                         </div>
                     </div>
 
-                    {/* Top Wicket Takers */}
+                    {/* Top Wicket Takers Table */}
                     <div className="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
                         <div className="p-6 border-b border-border bg-bg-secondary/30 flex justify-between items-center">
                             <h2 className="text-lg font-bold text-text-main flex items-center gap-2">

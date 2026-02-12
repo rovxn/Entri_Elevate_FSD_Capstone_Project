@@ -13,6 +13,8 @@ const playerSchema = new mongoose.Schema({
         runs: { type: Number, default: 0 },
         wickets: { type: Number, default: 0 },
         matchesPlayed: { type: Number, default: 0 },
+        ballsFaced: { type: Number, default: 0 },
+        ballsBowled: { type: Number, default: 0 },
         average: { type: Number, default: 0 }
     }
 });
