@@ -44,13 +44,15 @@ router.post('/', protect, authorize('admin'), async (req, res) => {
 // @route   PUT /api/matches/:id/score
 router.put('/:id/score', protect, authorize('admin', 'scorer'), async (req, res) => {
     try {
+        // req.body should match the new structure: { scores: { team1: {...}, team2: {...} }, battingTeam: '...' }
         const match = await Match.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!match) {
             return res.status(404).json({ message: 'Match not found' });
         }
         res.json(match);
     } catch (err) {
-        res.status(400).json({ message: 'Invalid Match ID' });
+        console.error(err);
+        res.status(400).json({ message: 'Invalid Match ID or Data' });
     }
 });
 

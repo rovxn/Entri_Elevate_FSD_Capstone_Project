@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Trophy, LogOut, User, LayoutDashboard, Menu, X, Settings } from 'lucide-react';
+import { Trophy, LogOut, User, LayoutDashboard, Menu, X, Settings, BarChart2 } from 'lucide-react';
 import { isAuthenticated, logout, getUserRole } from '../services/authService';
 
 const Navbar = () => {
@@ -22,8 +22,8 @@ const Navbar = () => {
         <Link
             to={to}
             className={`flex items-center gap-2 px-3 py-2 rounded-md transition-all duration-200 group ${isActive(to)
-                    ? 'bg-primary/10 text-primary font-bold'
-                    : 'text-text-muted hover:text-text-main hover:bg-black/5'
+                ? 'bg-primary/10 text-primary font-bold'
+                : 'text-text-muted hover:text-text-main hover:bg-black/5'
                 }`}
         >
             <Icon size={18} className={`transition-transform duration-200 ${isActive(to) ? 'scale-110' : 'group-hover:scale-110'}`} />
@@ -57,6 +57,7 @@ const Navbar = () => {
                         <>
                             <NavLink to="/dashboard" icon={LayoutDashboard} label="Dashboard" />
                             <NavLink to="/players" icon={User} label="Players" />
+                            <NavLink to="/analytics" icon={BarChart2} label="Analytics" />
                             {role === 'admin' && (
                                 <NavLink to="/admin" icon={Settings} label="Admin" />
                             )}
@@ -104,6 +105,17 @@ const Navbar = () => {
                                     <User size={24} />
                                 </div>
                                 <span className="text-lg font-bold text-text-main">Players</span>
+                            </Link>
+
+                            <Link
+                                to="/analytics"
+                                onClick={() => setIsMenuOpen(false)}
+                                className={`flex items-center gap-4 p-4 rounded-xl transition-all ${isActive('/analytics') ? 'bg-white shadow-md border border-border/50' : 'hover:bg-white/50'}`}
+                            >
+                                <div className={`p-2.5 rounded-lg ${isActive('/analytics') ? 'bg-primary text-white' : 'bg-bg-secondary text-text-muted'}`}>
+                                    <BarChart2 size={24} />
+                                </div>
+                                <span className="text-lg font-bold text-text-main">Analytics</span>
                             </Link>
 
                             {role === 'admin' && (

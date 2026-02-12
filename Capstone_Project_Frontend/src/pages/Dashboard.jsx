@@ -20,6 +20,10 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             const userData = await getCurrentUser();
+            if (!userData) {
+                navigate('/login');
+                return;
+            }
             setUser(userData);
             try {
                 const [matchesData, teamsData] = await Promise.all([
@@ -33,7 +37,7 @@ const Dashboard = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [navigate]);
 
     const handleCreateMatch = async (e) => {
         e.preventDefault();
@@ -281,7 +285,7 @@ const Dashboard = () => {
                                             </div>
                                             <div className="text-right">
                                                 <span className="block text-lg font-bold tabular-nums text-text-main">
-                                                    {match.score?.runs || '0'}/{match.score?.wickets || '0'}
+                                                    {match.scores?.team1?.runs || '0'}/{match.scores?.team1?.wickets || '0'}
                                                 </span>
                                             </div>
                                         </div>
@@ -298,9 +302,9 @@ const Dashboard = () => {
                                                     <span className="text-[10px] font-medium text-text-muted uppercase tracking-wide">Away</span>
                                                 </div>
                                             </div>
-                                            <div className="text-right">
-                                                <span className="text-xs font-semibold tabular-nums text-text-muted bg-bg-secondary px-2 py-0.5 rounded border border-border">
-                                                    {match.score?.overs || '0.0'} ov
+                                            <div className="text-right text-xs font-semibold tabular-nums text-text-muted">
+                                                <span className="block text-lg font-bold tabular-nums text-text-main">
+                                                    {match.scores?.team2?.runs || '0'}/{match.scores?.team2?.wickets || '0'}
                                                 </span>
                                             </div>
                                         </div>

@@ -5,12 +5,21 @@ const matchSchema = new mongoose.Schema({
     teams: [{ type: String }], // e.g., ["Team A", "Team B"]
     venue: String,
     status: { type: String, enum: ['upcoming', 'live', 'completed'], default: 'upcoming' },
-    score: {
-        runs: { type: Number, default: 0 },
-        wickets: { type: Number, default: 0 },
-        overs: { type: Number, default: 0 },
-        extras: { type: Number, default: 0 }
+    scores: {
+        team1: {
+            runs: { type: Number, default: 0 },
+            wickets: { type: Number, default: 0 },
+            overs: { type: Number, default: 0 },
+            extras: { type: Number, default: 0 }
+        },
+        team2: {
+            runs: { type: Number, default: 0 },
+            wickets: { type: Number, default: 0 },
+            overs: { type: Number, default: 0 },
+            extras: { type: Number, default: 0 }
+        }
     },
+    battingTeam: { type: String }, // Name of the team currently batting
     scorer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 

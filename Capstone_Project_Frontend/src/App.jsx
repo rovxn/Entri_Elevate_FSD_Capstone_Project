@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import MatchDetails from './pages/MatchDetails';
 import Players from './pages/Players';
+import Analytics from './pages/Analytics';
 import Admin from './pages/Admin';
 import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -39,6 +40,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Players />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
             </ProtectedRoute>
           }
         />
